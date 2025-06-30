@@ -18,7 +18,7 @@ function read_todo_list($include_closed = true)
 {
     $handle = fopen(TODO_LIST_CSV, "r");
     $todo_list = [];
-    while ($todo = fgetcsv($handle)) {
+    while ($todo = fgetcsv($handle, 0, ",", "\"", "\\")) {
         if (!$include_closed &&
           $todo[3] === STATUS_CLOSED) {
             continue;
@@ -37,7 +37,8 @@ function get_new_todo_id()
 function add_todo_list($todo)
 {
     $handle = fopen(TODO_LIST_CSV, "a");
-    fputcsv($handle, $todo);
+    //fputcsv($handle, $todo);
+    fputcsv($handle, $todo, ",", "\"", "\\");
     fclose($handle);
 }
 
@@ -45,7 +46,8 @@ function write_todo_list($todo_list)
 {
     $handle = fopen(TODO_LIST_CSV, "w");
     foreach ($todo_list as $todo) {
-        fputcsv($handle, $todo);
+        //fputcsv($handle, $todo);
+        fputcsv($handle, $todo, ",", "\"", "\\");
     }
     fclose($handle);
 }
